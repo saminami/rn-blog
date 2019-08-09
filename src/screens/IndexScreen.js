@@ -14,6 +14,15 @@ const IndexScreen = ({ navigation }) => {
 
     useEffect(() => {
         getBlogPosts()
+        
+        const listener = navigation.addListener('didFocus', () => {
+            getBlogPosts();
+        })
+
+        // this function will be ran if the component unmounts
+        return () => {
+            listener.remove()
+        }
     }, []);
 
     return (
@@ -28,8 +37,7 @@ const IndexScreen = ({ navigation }) => {
                         <TouchableOpacity onPress={() => navigation.navigate('Show', {id: item.id})}>
                             <View style={styles.row}>
                                 <Text style={styles.title}>
-                                    {item.title}
-                                    {item.id}
+                                    {item.title} id: {item.id}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => {
